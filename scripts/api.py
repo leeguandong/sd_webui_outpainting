@@ -3,7 +3,7 @@ import torch
 import numpy as np
 
 import gradio as gr
-from core import ImageExtension
+from scripts.core import ImageExtension
 
 
 class Event():
