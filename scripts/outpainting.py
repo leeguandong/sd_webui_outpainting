@@ -4,6 +4,7 @@ import numpy as np
 
 import gradio as gr
 from core import ImageExtension
+from modules import script_callbacks
 
 
 class Event():
@@ -136,10 +137,12 @@ class Event():
 
         return img
 
+
 event = Event()
 
+
 def on_ui_tabs():
-    with gr.Blocks() as outpainting:
+    with gr.Blocks(analytics_enabled=False) as outpainting:
         with gr.Row():
             with gr.Column():
                 image = gr.Image(height=300)
@@ -178,9 +181,7 @@ def on_ui_tabs():
             process.click(event.start_process, inputs=[image, prompt, neg_prompt, sample_step, guidance_scale],
                           outputs=[pre_image])
             apply.click(event.apply_to, inputs=[pre_image], outputs=[image])
-    return outpainting
+    return [(outpainting, "OutPainting", "OutPainting")]
 
 
-if __name__ == "__main__":    
-    ui = on_ui_tabs()
-    ui.launch()
+script_callbacks.on_ui_tabs(on_ui_tabs)
